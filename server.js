@@ -1,9 +1,13 @@
 const express=require('express');
-
+const connectDB=require('./config/database');
 const app=express();
 
 app.get('/', (req, res)=>{
     return res.send('Hello World');
 })
 
-app.listen(3000, ()=>console.log('Server is running on port 3000'));
+//connect to database
+connectDB();
+
+const port=3000;
+app.listen(port, ()=>console.log(`Server is running on port ${port}`));
