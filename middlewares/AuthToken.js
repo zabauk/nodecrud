@@ -12,6 +12,7 @@ const Auth=(req, res, next)=>{
         if(!verifyToken){
             return res.status(401).json({msg: 'No authorization token'});
         }
+        req.user=verifyToken.id;
         next();
     } catch (error) {
         return res.status(500).json({msg: error.message});
