@@ -2,9 +2,13 @@ const express=require('express');
 const connectDB=require('./config/database');
 const UserRouter=require('./routes/UserRouter');
 const app=express();
+const cors=require('cors');
 
 //use json middleware
 app.use(express.json());
+
+//use cors
+app.use(cors());
 
 app.get('/', (req, res)=>{
     return res.send('Hello World');
