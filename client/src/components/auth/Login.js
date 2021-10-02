@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Form, Card } from 'react-bootstrap';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 function Login() {
     //State Email && password
@@ -45,8 +47,12 @@ function Login() {
         <div className="container py-lg-5">
             <div className="row justify-content-center">
                 <div className="col-md-5">
+                <div className="errDiv">
+                { showError? (<p className="text-center custom-error">{errMessage}</p>):null }
+                </div>
+                
+                { isLoading? (<div className="text-center"><FontAwesomeIcon icon={ faSpinner } spin size="2x" /></div>):null }
                     <Card className="p-4">
-                        
                         <div className="text-center">
                             <img src="/icons/user.png" alt="Node Test" width="200" />
                         </div>
@@ -71,8 +77,6 @@ function Login() {
                         </Button>
                     </Form>
                     </Card>
-                    { showError? (<p className="text-center alert alert-danger">{errMessage}</p>):null }
-                        { isLoading? (<p className="text-center">Loading ...</p>):null }
                 </div>
             </div>
         </div>
