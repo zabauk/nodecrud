@@ -24,7 +24,7 @@ function Login() {
     const checkLogin=()=>{
         try {
             setIsLoading(true);
-            axios.post('http://localhost:5000/api/login', {email, password})
+            axios.post('http://localhost:5000/api/login', {email, password}, { withCredentials: true })
             .then(res=>{
                 setIsLoading(false);
                 window.location.href="/";
@@ -46,8 +46,7 @@ function Login() {
             <div className="row justify-content-center">
                 <div className="col-md-5">
                     <Card className="p-4">
-                        { showError? (<p className="text-center alert alert-danger">{errMessage}</p>):null }
-                        { isLoading? (<p className="text-center">Loading ...</p>):null }
+                        
                         <div className="text-center">
                             <img src="/icons/user.png" alt="Node Test" width="200" />
                         </div>
@@ -72,6 +71,8 @@ function Login() {
                         </Button>
                     </Form>
                     </Card>
+                    { showError? (<p className="text-center alert alert-danger">{errMessage}</p>):null }
+                        { isLoading? (<p className="text-center">Loading ...</p>):null }
                 </div>
             </div>
         </div>
