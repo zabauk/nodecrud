@@ -1,6 +1,7 @@
 const express=require('express');
 const connectDB=require('./config/database');
 const UserRouter=require('./routes/UserRouter');
+const PostRouter=require('./routes/PostRouter');
 const app=express();
 const cors=require('cors');
 const cookieParser=require('cookie-parser');
@@ -20,6 +21,9 @@ app.get('/', (req, res)=>{
 
 //User Router
 app.use('/api', UserRouter);
+
+//Post router
+app.use('/api', PostRouter);
 
 //connect to database
 connectDB();
