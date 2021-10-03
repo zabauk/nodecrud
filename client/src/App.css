@@ -7,3 +7,6 @@ body{
 .success{
     color: green;
 }
+.isLoadingNav{
+    margin-top: 12px;
+}

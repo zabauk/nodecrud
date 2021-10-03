@@ -12,6 +12,16 @@ exports.index=async (req, res)=>{
     }
 }
 
+//get each user
+exports.show=async(req, res)=>{
+    try {
+        const user=await User.findById(req.params.userid).select("name email date");
+        return res.json(user);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
 //register new user
 exports.register=async(req, res)=>{
     try {

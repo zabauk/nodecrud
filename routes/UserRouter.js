@@ -22,6 +22,11 @@ router.post('/login', UserController.login);
 //@description  Remove exiting user
 router.delete('/user', Auth, UserController.destroy);
 
+//@GET    /api/user/id
+//@access   private
+//@description  Get each user
+router.get('/user/:userid', Auth, UserController.show);
+
 
 //Export router
 module.exports=router;
