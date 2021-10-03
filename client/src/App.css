@@ -4,3 +4,6 @@ body{
 .custom-error{
     color: red;
 }
+.success{
+    color: green;
+}

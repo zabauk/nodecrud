@@ -3,6 +3,7 @@ import { Button, Form, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom';
 
 function Login() {
     //State Email && password
@@ -54,7 +55,7 @@ function Login() {
                 { isLoading? (<div className="text-center"><FontAwesomeIcon icon={ faSpinner } spin size="2x" /></div>):null }
                     <Card className="p-4">
                         <div className="text-center">
-                            <img src="/icons/user.png" alt="Node Test" width="200" />
+                            <img src="/icons/user.png" alt="Node Test" width="150" />
                         </div>
                         <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -76,6 +77,7 @@ function Login() {
                             Login
                         </Button>
                     </Form>
+                    <Link to="/register" className="mt-3">Register new user</Link>
                     </Card>
                 </div>
             </div>

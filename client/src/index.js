@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch} from 'react-router-dom';
@@ -15,6 +16,7 @@ const Routing=()=>{
       <Switch>
         <PrivateRoute exact path="/" component={App} />
         <PublicRoute path="/login" component={Login} />
+        <PublicRoute path="/register" component={Register} />
       </Switch>
     </Router>
   )
