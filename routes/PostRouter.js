@@ -5,7 +5,7 @@ const Auth=require('../middlewares/AuthToken');
 //POST      /api/post
 //@access   Private
 //@description  Create post
-router.post('/post', Auth, PostController.upload.single('image'), PostController.create);
+router.post('/post', Auth, PostController.upload.single('file'), PostController.create);
 
 
 module.exports=router;

@@ -3,7 +3,6 @@ const multer=require('multer');
 
 exports.create=async (req, res)=>{
     try {
-        console.log(req.cookies);
         const {title, description}=req.body;
         //check validation
         const newPost=new Post({
@@ -24,7 +23,7 @@ exports.create=async (req, res)=>{
 //File storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './client/public/uploads')
+      cb(null, './uploads')
     },
     filename: function (req, file, cb) {
         cb(null, new Date().toISOString()+file.originalname)

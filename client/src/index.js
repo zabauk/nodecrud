@@ -9,12 +9,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch} from 'react-router-dom';
 import PrivateRoute from './components/auth/PrivateRoute';
 import PublicRoute from './components/auth/PublicRoute';
+import CreatePost from './components/post/CreatePost';
+import NavBar from './components/NavBar';
 //Routing here
 const Routing=()=>{
   return(
     <Router>
+      <NavBar />
       <Switch>
         <PrivateRoute exact path="/" component={App} />
+        <PrivateRoute exact path="/create" component={CreatePost} />
+
         <PublicRoute path="/login" component={Login} />
         <PublicRoute path="/register" component={Register} />
       </Switch>
