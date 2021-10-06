@@ -1,10 +1,33 @@
 const Post=require('../models/Post');
 const multer=require('multer');
 
+//get all posts
+exports.getPosts=async (req, res)=>{
+    try {
+        const posts=await Post.find().sort('-date');
+        res.json(posts);
+    } catch (error) {
+        return res.status(500).json({msg: error.message});
+    }
+}
+
+//get each post
+exports.Show=async(req, res)=>{
+    try {
+        const id=req.params.pid;
+        const post=await Post.findById(id);
+        res.json(post);
+    } catch (error) {
+        return res.status(500).json({msg: error.message});
+    }
+}
+
+//create post
 exports.create=async (req, res)=>{
     try {
         const {title, description}=req.body;
-        //check validation
+        //Validation
+
         const newPost=new Post({
             title,
             description,
@@ -12,7 +35,7 @@ exports.create=async (req, res)=>{
             user: req.user
         })
         const savedData=await newPost.save();
-        res.json({msg: savedData});
+        res.json(savedData);
 
     } catch (error) {
         res.status(500).json({msg: error.message});

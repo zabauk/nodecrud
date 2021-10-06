@@ -85,10 +85,10 @@ exports.login=async (req, res)=>{
         //response jwt token
         const token=await jwt.sign({id: user._id}, process.env.SECRET_KEY);
         res.cookie('token', token, {
-            maxAge: 24*60*60*10000
+            maxAge: 1*60*60*10000
         });
         res.cookie('user_id', user._id, {
-            maxAge: 24*60*60*10000
+            maxAge: 1*60*60*10000
         });
         res.json({
             token,

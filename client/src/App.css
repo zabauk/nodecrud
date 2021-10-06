@@ -10,3 +10,13 @@ body{
 .isLoadingNav{
     margin-top: 12px;
 }
+.image-container{
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+.showImage{
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}

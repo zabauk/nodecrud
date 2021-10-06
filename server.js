@@ -15,6 +15,10 @@ app.use(cookieParser());
 //use cors
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
+//set uploads folder static
+app.use('/uploads', express.static('uploads'))
+
+
 app.get('/', (req, res)=>{
     return res.send('Hello World');
 })

@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const cookies=new Cookies();
 
-const CreatePost = () => {
+const CreatePost = (props) => {
     const [inputData, setFormData]=useState({
         title: '',
         description: ''
@@ -15,6 +15,7 @@ const CreatePost = () => {
     const [imageFile, setImageFile]=useState('');
     const [success, setSuccess]=useState(false);
     const [isLoading, setIsLoading]=useState(false);
+    const [errors, setErrors]=useState([]);
 
     //handle change input
         const handleChange=(e)=>{
@@ -46,6 +47,7 @@ const CreatePost = () => {
                 }}).then(res=>{
                     setIsLoading(false);
                     setSuccess(true);
+                    props.savedData(res.data);
                     setFormData({
                         title:'',
                         description:''
@@ -53,13 +55,13 @@ const CreatePost = () => {
                     //clear input file
                     ref.current.value='';
                     setImageFile('');
-                    
+
                     setTimeout(()=>{
                         setSuccess(false);
                     }, 3000);
                 }).catch(err=>{
                     setIsLoading(false);
-                    console.log(err.message);
+                    console.log(err.response.data);
                 })
             } catch (error) {
                 console.log(error.message);
@@ -71,10 +73,14 @@ const CreatePost = () => {
             {success && <p className="text-center success">Post created successfully!</p>}
             {isLoading && <div className="text-center mb-3"><FontAwesomeIcon icon={faSpinner} spin size="lg" /></div>}
                         <Card className="p-3">
+                            <p>{props.name}</p>
                         <Form>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                             <Form.Label>Post title</Form.Label>
                             <Form.Control type="text" placeholder="Enter post title" name="title" value={inputData.title} onChange={handleChange} />
+                            <Form.Text className="custom-error">
+                            We'll never share your email with anyone else.
+                            </Form.Text>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                             <Form.Label>Post description</Form.Label>
