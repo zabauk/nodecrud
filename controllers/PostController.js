@@ -42,6 +42,44 @@ exports.create=async (req, res)=>{
     }
 }
 
+//edit post
+exports.edit=async (req, res)=>{
+    try {
+        const id=req.params.pid;
+        const post=await Post.findById(id);
+        res.json(post);
+
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+//update post
+exports.update=async (req, res)=>{
+    try {
+        const id=req.params.pid;
+        const {title, description}=req.body;
+        const updatePost=new Post({
+            _id:id,
+            title,
+            description,
+            image: req.file.path,
+            user:req.user
+        });
+        await Post.updateOne(
+            {_id: id},
+            updatePost
+        )
+        .then(result=>{
+            res.status(201).json({msg: 'Post updated successfully!'});
+        }).catch(err=>{
+            res.status(500).json({msg: err.message});
+        })
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
 //Delete post
 exports.destroy=async (req, res)=>{
     try {

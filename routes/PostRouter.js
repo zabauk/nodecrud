@@ -18,6 +18,16 @@ router.get('/post/:pid', Auth, PostController.Show);
 //@description  Create post
 router.post('/post', Auth, PostController.upload.single('file'), PostController.create);
 
+//GET      /api/post/id
+//@access   Private
+//@description  Edit post shwo on view
+router.get('/post/:pid/edit', Auth, PostController.edit);
+
+//PUT      /api/post/id
+//@access   Private
+//@description  Update post
+router.put('/post/:pid', Auth, PostController.upload.single('file'), PostController.update);
+
 //DELETE      /api/post/id
 //@access   Private
 //@description  Delete post
