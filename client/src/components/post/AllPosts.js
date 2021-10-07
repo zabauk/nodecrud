@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 import CreatePost from './CreatePost';
+import DeleteModel from './DeleteModel';
 
 const cookies=new Cookies();
 
 function AllPosts(props) {
     const [posts, setPosts]=useState([]);
     const [isLoading, setIsLoading]=useState(false);
+    const [showModel, setShowModel]=useState(false);
+    const [pid, setPid]=useState('');
 
     const savedData=(post)=>{
       try {
@@ -20,6 +23,15 @@ function AllPosts(props) {
       } catch (error) {
         console.log(error.message);
       }
+    }
+    //handle Model
+    const handleModel=(id)=>{
+        try {
+            setPid(id);
+            setShowModel(true);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
     
     useEffect(()=>{
@@ -37,10 +49,26 @@ function AllPosts(props) {
         });
     }, [])
 
+    //handle close Model
+    const closeModel=data=>setShowModel(data);
+
+    //remove from array
+    const removeFromArray=id=>{
+        try {
+            const newPosts=posts.filter(post=>post._id !== id);
+            setPosts(newPosts);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     return (
         <React.Fragment>
             {/* saved data component */}
             <CreatePost savedData={savedData} />
+
+            {/* Delete Model */}
+            <DeleteModel model={showModel} postId={pid} closeModel={closeModel} removeId={removeFromArray} />
 
             {isLoading?<div className="mt-5 text-center"><FontAwesomeIcon icon={faSpinner} spin size="3x" /></div>:
                 <div>
@@ -56,6 +84,7 @@ function AllPosts(props) {
                                 {post.description.substring(0, 150)+ ' . . .'}
                                 </Card.Text>
                                 <Link to={`/show/${post._id}`} >Read more</Link>
+                                <span className="delbutton" onClick={e=>handleModel(post._id)}>Delete</span>
                             </Card.Body>
                             </Card>
                         )

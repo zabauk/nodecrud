@@ -5,7 +5,7 @@ const Auth=require('../middlewares/AuthToken');
 //@GET    /api/users
 //@access   private
 //@description  get all users
-router.get('/users', UserController.index);
+router.get('/users', Auth, UserController.index);
 
 //@POST    /api/register
 //@access   public

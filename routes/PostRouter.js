@@ -18,4 +18,9 @@ router.get('/post/:pid', Auth, PostController.Show);
 //@description  Create post
 router.post('/post', Auth, PostController.upload.single('file'), PostController.create);
 
+//DELETE      /api/post/id
+//@access   Private
+//@description  Delete post
+router.delete('/post/:pid', Auth, PostController.destroy);
+
 module.exports=router;

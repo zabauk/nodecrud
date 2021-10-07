@@ -42,6 +42,17 @@ exports.create=async (req, res)=>{
     }
 }
 
+//Delete post
+exports.destroy=async (req, res)=>{
+    try {
+        const id=req.params.pid;
+        await Post.findByIdAndDelete({'_id':id});
+        res.json(id);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
 
 //File storage
 const storage = multer.diskStorage({
