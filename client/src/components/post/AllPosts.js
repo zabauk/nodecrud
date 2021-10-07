@@ -85,6 +85,8 @@ function AllPosts(props) {
                                 </Card.Text>
                                 <Link to={`/show/${post._id}`} >Read more</Link>
                                 <span className="delbutton" onClick={e=>handleModel(post._id)}>Delete</span>
+                                &nbsp;
+                                <Link to={`/post/${post._id}/edit`}>Edit</Link>
                             </Card.Body>
                             </Card>
                         )
