@@ -1,5 +1,6 @@
 const Post=require('../models/Post');
 const multer=require('multer');
+const fs=require('fs');
 
 //get all posts
 exports.getPosts=async (req, res)=>{
@@ -84,8 +85,11 @@ exports.update=async (req, res)=>{
 exports.destroy=async (req, res)=>{
     try {
         const id=req.params.pid;
+        const post=await Post.findById(id);
+        fs.unlinkSync(post.image);
         await Post.findByIdAndDelete({'_id':id});
         res.json(id);
+
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
