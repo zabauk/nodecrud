@@ -1,6 +1,7 @@
 const Post=require('../models/Post');
 const multer=require('multer');
 const fs=require('fs');
+const { PostSchema }=require('../requests/Validation');
 
 //get all posts
 exports.getPosts=async (req, res)=>{
@@ -26,17 +27,35 @@ exports.Show=async(req, res)=>{
 //create post
 exports.create=async (req, res)=>{
     try {
-        const {title, description}=req.body;
-        //Validation
-
-        const newPost=new Post({
-            title,
-            description,
-            image:req.file.path,
-            user: req.user
-        })
-        const savedData=await newPost.save();
-        res.json(savedData);
+        try {
+            console.log(req.file)
+            const value = await PostSchema.validateAsync(req.body, {abortEarly:true});
+            const {title, description}=value;
+            if(req.file == "undefined"){
+                console.log('no file')
+                const newPost=new Post({
+                    title,
+                    description,
+                    user: req.user
+                })
+                const savedData=await newPost.save();
+                res.json(savedData);
+            }else{
+                console.log('yes file')
+                const newPost=new Post({
+                    title,
+                    description,
+                    image:req.file.path,
+                    user: req.user
+                })
+                const savedData=await newPost.save();
+                res.json(savedData);
+            }
+        }
+        catch (err) {
+            res.status(422).json({msg: err.message});
+            
+        }
 
     } catch (error) {
         res.status(500).json({msg: error.message});
@@ -108,7 +127,10 @@ const storage = multer.diskStorage({
 
 //file filter
 const fileFilter=(req, file, cb)=>{
-    if(file.mimetype==='image/jpeg' || file.mimetype==='image/png' || file.mimetype==='image/jpg'){
+    if(file == "undefined"){
+        cb(null, true)
+    }
+    else if(file.mimetype==='image/jpeg' || file.mimetype==='image/png' || file.mimetype==='image/jpg'){
         cb(null, true)
     }else{
         cb(null, false)

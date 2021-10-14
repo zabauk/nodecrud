@@ -1,22 +1,23 @@
 const router=require('express').Router();
 const PostController=require('../controllers/PostController');
 const Auth=require('../middlewares/AuthToken');
-const PostRequest=require('../requests/PostRequest');
+const PostRequest=require('../requests/Validation');
+const {cache, delcache}=require('../config/routeCache');
 
 //GET       /api/posts
 //@access   Private
 //@description  get all posts
-router.get('/posts', Auth, PostController.getPosts);
+router.get('/posts', Auth, cache(300), PostController.getPosts);
 
 //GET       /api/post/id
 //@access   Private
 //@description  get each post
-router.get('/post/:pid', Auth, PostController.Show);
+router.get('/post/:pid', Auth, cache(300), PostController.Show);
 
 //POST      /api/post
 //@access   Private
 //@description  Create post
-router.post('/post', Auth, PostController.upload.single('file'), PostController.create);
+router.post('/post', Auth, delcache('/api/posts'), PostController.upload.single('file'), PostController.create);
 
 //GET      /api/post/id
 //@access   Private
@@ -26,11 +27,11 @@ router.get('/post/:pid/edit', Auth, PostController.edit);
 //PUT      /api/post/id
 //@access   Private
 //@description  Update post
-router.put('/post/:pid', Auth, PostController.upload.single('file'), PostController.update);
+router.put('/post/:pid', Auth, delcache('/api/posts'), delcache('/api/post/:pid'), PostController.upload.single('file'), PostController.update);
 
 //DELETE      /api/post/id
 //@access   Private
 //@description  Delete post
-router.delete('/post/:pid', Auth, PostController.destroy);
+router.delete('/post/:pid', Auth, delcache('/api/posts'), PostController.destroy);
 
 module.exports=router;

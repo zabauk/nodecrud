@@ -43,7 +43,8 @@ const CreatePost = (props) => {
                 
                 axios.post('http://localhost:5000/api/post', formData, 
                 {headers: {
-                    'Authorization':cookies.get('token')
+                    'Authorization':cookies.get('token'),
+                    'Content-Type': 'application/json'
                 }}).then(res=>{
                     setIsLoading(false);
                     setSuccess(true);
