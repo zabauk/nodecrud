@@ -5,6 +5,7 @@ const PostRouter=require('./routes/PostRouter');
 const app=express();
 const cors=require('cors');
 const cookieParser=require('cookie-parser');
+const fileUpload=require('express-fileupload');
 
 //use json middleware
 app.use(express.json());
@@ -14,6 +15,9 @@ app.use(cookieParser());
 
 //use cors
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+
+//file upload using express-fileupload
+app.use(fileUpload());
 
 //set uploads folder static
 app.use('/uploads', express.static('uploads'))

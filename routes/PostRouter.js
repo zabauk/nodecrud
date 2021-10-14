@@ -1,7 +1,6 @@
 const router=require('express').Router();
 const PostController=require('../controllers/PostController');
-const Auth=require('../middlewares/AuthToken');
-const PostRequest=require('../requests/Validation');
+const Auth=require('../middlewares/AuthToken'); 
 const {cache, delcache}=require('../config/routeCache');
 
 //GET       /api/posts
@@ -17,7 +16,7 @@ router.get('/post/:pid', Auth, cache(300), PostController.Show);
 //POST      /api/post
 //@access   Private
 //@description  Create post
-router.post('/post', Auth, delcache('/api/posts'), PostController.upload.single('file'), PostController.create);
+router.post('/post', Auth, delcache('/api/posts'), PostController.create);
 
 //GET      /api/post/id
 //@access   Private
@@ -27,7 +26,7 @@ router.get('/post/:pid/edit', Auth, PostController.edit);
 //PUT      /api/post/id
 //@access   Private
 //@description  Update post
-router.put('/post/:pid', Auth, delcache('/api/posts'), delcache('/api/post/:pid'), PostController.upload.single('file'), PostController.update);
+router.put('/post/:pid', Auth, delcache('/api/posts'), delcache('/api/post/:pid'), PostController.update);
 
 //DELETE      /api/post/id
 //@access   Private

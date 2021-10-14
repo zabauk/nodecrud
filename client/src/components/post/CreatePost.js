@@ -15,7 +15,7 @@ const CreatePost = (props) => {
     const [imageFile, setImageFile]=useState('');
     const [success, setSuccess]=useState(false);
     const [isLoading, setIsLoading]=useState(false);
-    const [errors, setErrors]=useState([]);
+    const [error, setError]=useState('');
 
     //handle change input
         const handleChange=(e)=>{
@@ -62,7 +62,8 @@ const CreatePost = (props) => {
                     }, 3000);
                 }).catch(err=>{
                     setIsLoading(false);
-                    console.log(err.response.data);
+                    console.log(err.response);
+                    setError(err.response.data.msg)
                 })
             } catch (error) {
                 console.log(error.message);
@@ -72,6 +73,7 @@ const CreatePost = (props) => {
     return (
         <React.Fragment>
             {success && <p className="text-center success">Post created successfully!</p>}
+            {error && <p className="text-center custom-error">{error}</p>}
             {isLoading && <div className="text-center mb-3"><FontAwesomeIcon icon={faSpinner} spin size="lg" /></div>}
                         <Card className="p-3">
                             <p>{props.name}</p>

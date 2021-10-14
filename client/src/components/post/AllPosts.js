@@ -76,7 +76,7 @@ function AllPosts(props) {
                         return(
                             <Card className="mt-3" key={key}>
                             <div className="image-container">
-                                <Card.Img className="showImage" variant="top" src={`http://localhost:5000/${post.image}`} />
+                                <Card.Img className="showImage" variant="top" src={`http://localhost:5000/uploads/${post.image}`} />
                             </div>
                             <Card.Body>
                                 <Card.Title>{post.title}</Card.Title>

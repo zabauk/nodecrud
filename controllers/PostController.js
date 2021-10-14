@@ -1,6 +1,5 @@
 const Post=require('../models/Post');
-const multer=require('multer');
-const fs=require('fs');
+const fs=require('fs');//to delete file
 const { PostSchema }=require('../requests/Validation');
 
 //get all posts
@@ -28,29 +27,23 @@ exports.Show=async(req, res)=>{
 exports.create=async (req, res)=>{
     try {
         try {
-            console.log(req.file)
             const value = await PostSchema.validateAsync(req.body, {abortEarly:true});
+            const file=req.files.file;
+            const filename=Date.now()+file.name;
+            file.mv(`uploads/${filename}`, err=>{
+                if(err){
+                    return res.status(500).json(err);
+                }
+            });
             const {title, description}=value;
-            if(req.file == "undefined"){
-                console.log('no file')
-                const newPost=new Post({
-                    title,
-                    description,
-                    user: req.user
-                })
-                const savedData=await newPost.save();
-                res.json(savedData);
-            }else{
-                console.log('yes file')
-                const newPost=new Post({
-                    title,
-                    description,
-                    image:req.file.path,
-                    user: req.user
-                })
-                const savedData=await newPost.save();
-                res.json(savedData);
-            }
+            const newPost=new Post({
+                title,
+                description,
+                image:filename,
+                user:req.user
+            })
+            const data=await newPost.save();
+            res.json(data)
         }
         catch (err) {
             res.status(422).json({msg: err.message});
@@ -105,7 +98,7 @@ exports.destroy=async (req, res)=>{
     try {
         const id=req.params.pid;
         const post=await Post.findById(id);
-        fs.unlinkSync(post.image);
+        fs.unlinkSync('uploads/'+post.image);
         await Post.findByIdAndDelete({'_id':id});
         res.json(id);
 
@@ -113,34 +106,3 @@ exports.destroy=async (req, res)=>{
         res.status(500).json({msg: error.message});
     }
 }
-
-
-//File storage
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString()+file.originalname)
-    }
-  })
-
-//file filter
-const fileFilter=(req, file, cb)=>{
-    if(file == "undefined"){
-        cb(null, true)
-    }
-    else if(file.mimetype==='image/jpeg' || file.mimetype==='image/png' || file.mimetype==='image/jpg'){
-        cb(null, true)
-    }else{
-        cb(null, false)
-    }
-}
-
-exports.upload=multer({
-    storage:storage,
-    limits:{
-        fileSize:1024*1024*5
-    },
-    fileFilter:fileFilter
-})
